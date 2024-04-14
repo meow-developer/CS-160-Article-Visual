@@ -1,0 +1,12 @@
+node_modules/
+
+*.env
+*.env.*
+
+dist/
+
+.DS_Store
+
+.vscode/
+temp_files/
+temp_uploads/

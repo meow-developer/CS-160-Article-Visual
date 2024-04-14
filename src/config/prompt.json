@@ -1,0 +1,31 @@
+{
+  "system_msg": "You're an AI assistant that helps people to understand the content in an article through a diagram.",
+
+  "get_keyword_from_pdf": {
+    "prompt_msg": "Now, use the provided text to extract maximum of 7 keywords along with the relationship between them.\n---\nTEXT\n",
+    "few_shot": [
+      {
+        "prompt_msg": "Use the provided text to extract maximum of 7 keywords along with the relationship between them.\n---\nTEXT\nIn the sprawling domain of technology, two fields that frequently capture headlines are Artificial Intelligence (AI) and Computer Science. These disciplines, rich in innovation and potential, house various subfields that are shaping the future. Among these, Machine Learning and Information Security stand out for their transformative impact and pivotal roles. This article delves into how Machine Learning falls under the umbrella of Artificial Intelligence, and similarly, how Information Security is a crucial aspect of Computer Science, shedding light on their significance and interconnections.\n",
+        "response": "\nKeyword 1: Artificial Intelligence \n Keyword 2: Machine Learning \n Relationship: Keyword 2 is a topic of Keyword 1\n Keyword 3: Computer Science\n Keyword 4: Information Security\n Relationship: Keyword 4 is a topic of Keyword 3"
+      },
+      {
+        "prompt_msg": "Use the provided text to extract maximum of 7 keywords along with the relationship between them.\n---\nTEXT\n The major advantage of MapReduce is that it is easy to scale data processing over multiple computing nodes. Under the MapReduce model, the data processing primitives are called mappers and reducers. Decomposing a data processing application into mappers and reducers is sometimes nontrivial. But, once we write an application in the MapReduce form, scaling the application to run over hundreds, thousands, or even tens of thousands of machines in a cluster is merely a configuration change. This simple scalability is what has attracted many programmers to use the MapReduce model.\n",
+        "response": "\nKeyword 1: Scalability \n Keyword 2: Map Reduce \n Relationship: Keyword 1 is a result of Keyword 2 \n Keyword 3: Data Processing \n Keyword 4: Computing Nodes \n Relationship: Keyword 3 is executed on Keyword 4 \n Keyword 5: Programmers \n Relationship: Keyword 5 want to use because of simple scalability Keyword 2"
+
+      }
+    ]
+  },
+  "generate_mermaid_using_keyword": {
+    "prompt_msg": "Use the keywords and their relationships to generate a concept map using Mermaid code. Make sure that there are linkages to represent the relationships between the concepts on the map.\n **ONLY PROVIDE ME WITH THE MERMAID CODE**\n---\nKEYWORDS\n",
+    "few_shot": [
+      {
+        "prompt_msg": "Use the keywords and their relationships to generate a concept map using Mermaid code. Make sure that there are linkages to represent the relationships between the concepts on the map.\n **ONLY PROVIDE ME WITH THE MERMAID CODE**\n---\nKEYWORDS\n Keyword 1: Artificial Intelligence \n Keyword 2: Machine Learning \n Relationship: Keyword 2 is a topic of Keyword 1\n Keyword 3: Computer Science\n Keyword 4: Information Security\n Relationship: Keyword 4 is a topic of Keyword 3",
+        "response": "graph TD\n    A[Artificial Intelligence] -->|is a topic of| B[Machine Learning]\n    C[Computer Science] -->|is a topic of| D[Information Security]\n "
+      },
+      {
+        "prompt_msg": "Use the keywords and their relationships to generate a concept map using Mermaid code. Make sure that there are linkages to represent the relationships between the concepts on the map.\n **ONLY PROVIDE ME WITH THE MERMAID CODE**\n---\nKEYWORDS\nKeyword 1: MapReduce \n Keyword 2: Data Processing \n Keyword 3: Computing Nodes \n Relationship: Keyword 3 is where Keyword 2 is executed \n Keyword 4: Scalability \n Relationship: Keyword 4 is a result of Keyword 1",
+        "response": "graph TD\n    A[Scalability] -->|is a result of| B[MapReduce]\n    C[Data Processing] -->|is executed on| D[Computing Nodes]\n    E[Programmers]-->|want to use because of simple scalability| B\n "
+      }
+    ]
+  }
+}
