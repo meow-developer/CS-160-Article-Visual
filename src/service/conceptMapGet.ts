@@ -5,9 +5,10 @@ import ConceptMapGenerationService from "./conceptMapGeneration.js";
 import { readPdfText } from 'pdf-text-reader';
 
 
-export abstract class ConceptMapGetService{
-    abstract checkIfConceptMapExistsInDb(articleId: string): Promise<boolean>;
-
+export default class ConceptMapGetService{
+    private async checkIfConceptMapExistsInDb(articleId: string): Promise<boolean> {
+        return true;
+    }
     /**
      * @returns {Promise<string>} - The pdf file path.
      */
@@ -27,7 +28,9 @@ export abstract class ConceptMapGetService{
     /**
      * @return {Promise<string>} - The concept map in mermaid format.
      */
-    abstract getConceptMapFromStorage(articleStorageUUID: string): Promise<string>;
+    private async getConceptMapFromStorage(articleStorageUUID: string): Promise<string> {
+        return "";
+    }
 
     /**
      * @return {Promise<string>} - The concept map in mermaid format.
