@@ -8,7 +8,7 @@ class ConceptMapGenerationServiceError extends Error{
     }
 }
 
-export class ConceptMapGenerationService extends ChatGptService{
+export default class ConceptMapGenerationService extends ChatGptService{
     private TASK_NAMES = ["get_keyword_from_pdf", "generate_mermaid_using_keyword"];
 
     constructor(){
@@ -67,12 +67,12 @@ export class ConceptMapGenerationService extends ChatGptService{
         throw new ConceptMapGenerationServiceError("Failed to generate valid mermaid code. Tried maximum number of attempts.");
     }
 
-    public async generateConceptMap(pdfText: string){
+    public async generate(pdfText: string): Promise<string>{
         this.loadGetKeywordTaskPrompt();
         const keyword = await this.getKeywordFromPdf(pdfText);
 
         this.loadGenerateMermaidTaskPrompt();
-        const mermaidCode = await this.generateValidMermaidUsingKeyword(keyword!);
+        const mermaidCode = (await this.generateValidMermaidUsingKeyword(keyword!))!;
 
         return mermaidCode;
     }
