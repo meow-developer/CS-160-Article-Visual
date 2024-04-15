@@ -1,8 +1,6 @@
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
-import * as dotenv from 'dotenv';
 import { open } from 'node:fs/promises';
-
-dotenv.config();
+import "dotenv/config";
 
 class DiagramStorage {
     /**
@@ -45,19 +43,17 @@ class DiagramStorage {
     }
 
     /**
-     * @param {string} articleId
+     * @param {string} storageDiagramUUID
      */
-    async getDiagram(articleId) {
-        const params = {
+    async getDiagram(storageDiagramUUID) {
+        const command = new GetObjectCommand({
             Bucket: this.bucketName,
-            Key: articleId,
-        };
+            Key: storageDiagramUUID,
+        });
 
-        const command = new GetObjectCommand(params);
-
-        const data = await this.s3Client.send(command);
-
-        return data;
+        const response = await this.s3Client.send(command);
+        const responseStream = await response.Body?.transformToWebStream();
+        return responseStream;
     }
 
     /**

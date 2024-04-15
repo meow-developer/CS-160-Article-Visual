@@ -21,7 +21,7 @@ class DiagramDb {
     /**
      * @param {any} articleId
      */
-    async getDiagramById(articleId) {
+    async getDiagramByArticleId(articleId) {
         const diagram = await this.db.diagram.findUnique({
             "where": {
                 "ArticleID": articleId
@@ -37,7 +37,7 @@ class DiagramDb {
     async insertDiagram(diagramData) {
         const diagramCreate = await this.db.diagram.create({
             "data": {
-                "StorageDiagramName": diagramData.StorageDiagramName,
+                "StorageDiagramUUID": diagramData.StorageDiagramName,
                 "Active": diagramData.Active,
                 "Articles": { connect: {ArticleID:  diagramData.ArticleID}}
             }
@@ -46,23 +46,34 @@ class DiagramDb {
     }
 
     /**
-     * @param {Prisma.DiagramDeleteArgs["where"]["StorageDiagramName"]} storageDiagramUUID
+     * @param {Prisma.DiagramDeleteArgs["where"]["StorageDiagramUUID"]} storageDiagramUUID
      */
     async deleteDiagramByStorageUUID(storageDiagramUUID) {
         await this.db.diagram.delete({
             "where": {
-                "StorageDiagramName": storageDiagramUUID
+                "StorageDiagramUUID": storageDiagramUUID
             }
         })
     }
 
     /**
-     * @param {Prisma.DiagramDeleteArgs["where"]["StorageDiagramName"]} storageDiagramUUID
+     * @param {Prisma.DiagramDeleteArgs["where"]["StorageDiagramUUID"]} storageDiagramUUID
      */
     async countDiagramByStorageUUID(storageDiagramUUID) {
         return await this.db.diagram.count({
             "where": {
-                "StorageDiagramName": storageDiagramUUID
+                "StorageDiagramUUID": storageDiagramUUID
+            }
+        })
+    }
+
+    /**
+     * @param {Prisma.DiagramDeleteArgs["where"]["ArticleID"]} articleId 
+     */
+    async countDiagramByArticleId(articleId) {
+        return await this.db.diagram.count({
+            "where": {
+                "ArticleID": articleId
             }
         })
     }
