@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { RestError } from "../../restError.js";
+import { RestError } from "../../type/restError.js";
 import { OwnValidationResult } from "./ownValidator.js";
 
 export default class ValidationRestError extends RestError{

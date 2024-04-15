@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { RestError } from "../restError.js";
+import { RestError } from "../type/restError.js";
 
 
 export const loggingError = (err: any) => {
