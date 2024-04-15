@@ -19,7 +19,7 @@ model Articles {
 
 model Diagram {
   ArticleID          Int      @unique(map: "ArticleID")
-  StorageDiagramName String?  @db.VarChar(255)
+  StorageDiagramName String   @unique(map: "StorageDiagramName") @db.VarChar(255)
   Active             Boolean  @default(true)
   Articles           Articles @relation(fields: [ArticleID], references: [ArticleID], onDelete: Cascade, onUpdate: NoAction, map: "Diagram_ibfk_1")
 }
