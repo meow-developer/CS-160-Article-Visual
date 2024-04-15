@@ -13,9 +13,12 @@ export default class ExistentConceptMapGet{
     private tempStoragePath: string;
 
     private articleId: number;
-    constructor(articleId: number){
+    private req: Request;
+    
+    constructor(articleId: number, req: Request){
         this.articleId = articleId;
         this.tempStoragePath = this.getTempDiagramFilePath();
+        this.req = req;
     }
 
     private async getConceptMapUUIDFromDb(): Promise<string> {
@@ -56,17 +59,17 @@ export default class ExistentConceptMapGet{
         return path.join(tempStoragePath, this.articleId + ".mdd");
     }
 
-    private removeTempDiagramFileWhenReqEnd(req: Request) {
-        req.on('close', async () => {
+    private removeTempDiagramFileWhenReqEnd() {
+        this.req.on('close', async () => {
             await unlink(this.tempStoragePath);
         });
     }
 
-    public async get(req: Request) {
+    public async get() {
         const diagramUUID = await this.getConceptMapUUIDFromDb();
         const diagramStream = await this.getConceptMapFromStorage(diagramUUID);
         await this.saveDiagramToDisk(diagramStream);
-        this.removeTempDiagramFileWhenReqEnd(req);
+        this.removeTempDiagramFileWhenReqEnd();
         return this.tempStoragePath;
     }
 }
