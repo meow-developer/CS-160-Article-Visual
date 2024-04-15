@@ -74,6 +74,7 @@ export default class ChatGptService {
             role: "system",
             content: message
         });
+        this.isSystemMsgSet = true;
     }
     
     protected addUserMessageToQueue(message: string){
@@ -112,10 +113,10 @@ export default class ChatGptService {
     }
 
     protected async send(){
-        return await this.openAi.chat.completions.create({
+        return (await this.openAi.chat.completions.create({
             "model": this.chatGptModel,
             "messages" : this.messageQueue
-        }) 
+        })).choices[0].message.content
     }
 }
 
