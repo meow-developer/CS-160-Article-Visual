@@ -1,7 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import ConceptMapGetService from "../service/conceptMapGet.js";
 
-
 export const getConceptMap = async (req: Request, res: Response, next: NextFunction) => {
     const articleId = req.params.articleId;
     try {
