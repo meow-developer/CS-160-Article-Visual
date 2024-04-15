@@ -21,11 +21,13 @@ export default class NonExistConceptMapGet{
     private tempStoragePath: string;
     private tempArticleFilePath: string;
     private tempDiagramFilePath: string | null = null;
+    private req: Request;
 
-    constructor(articleId: number){
+    constructor(articleId: number, req: Request){
         this.articleId = articleId;
         this.tempStoragePath = this.getTempStoragePath();
         this.tempArticleFilePath = this.getTempArticleFilePath();
+        this.req = req;
     }
 
     private getTempStoragePath() {
@@ -108,13 +110,13 @@ export default class NonExistConceptMapGet{
         this.diagramStorage.saveDiagram(diagramUUID, this.tempDiagramFilePath!);
     }
 
-    private removeTempPdfFileWhenReqEnd(req: Request) {
-        req.on('close', async () => {
+    private removeTempPdfFileWhenReqEnd() {
+        this.req.on('close', async () => {
             await unlink(this.tempArticleFilePath);
         });
     }
 
-    public async get(req: Request) {
+    public async get() {
         const pdfStream = await this.getArticleFromStorage();
         await this.savePdfToDisk(pdfStream);
 
@@ -122,12 +124,14 @@ export default class NonExistConceptMapGet{
         const conceptMap = await this.generateConceptMap(pdfText);
 
         const diagramUUID = this.generateConceptMapUUID();
+        this.loadTempConceptMapFilePath(diagramUUID);
+        
         await this.saveConceptMapToDisk(conceptMap);
 
         await this.writeDiagramToDb(diagramUUID);
         await this.saveDiagramToStorage(diagramUUID);
 
-        this.removeTempPdfFileWhenReqEnd(req);
+        this.removeTempPdfFileWhenReqEnd();
 
         return this.tempDiagramFilePath!;
     }

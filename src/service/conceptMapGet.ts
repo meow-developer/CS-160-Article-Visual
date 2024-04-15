@@ -7,9 +7,11 @@ import DiagramDb from "../repo/diagramDb.js";
 export default class ConceptMapGetService{
     private articleId: number;
     private diagramDb = DiagramDb.getInstance();
+    private req: Request;
 
-    constructor(articleId: number){
+    constructor(articleId: number, req: Request){
         this.articleId = articleId;
+        this.req = req;
     }
     
     private async checkIfConceptMapExistsInDb(): Promise<boolean> {
@@ -17,14 +19,14 @@ export default class ConceptMapGetService{
         return diagramCount > 0;
     }
 
-    public async get(req: Request) {
+    public async get() {
         const isConceptMapExists = await this.checkIfConceptMapExistsInDb();
         if (isConceptMapExists) {
-            const existentConceptMapGet = new ExistentConceptMapGet(this.articleId);
-            return await existentConceptMapGet.get(req);
+            const existentConceptMapGet = new ExistentConceptMapGet(this.articleId, this.req);
+            return await existentConceptMapGet.get();
         } else {
-            const nonExistConceptMapGet = new NonExistConceptMapGet(this.articleId);
-            return await nonExistConceptMapGet.get(req);
+            const nonExistConceptMapGet = new NonExistConceptMapGet(this.articleId, this.req);
+            return await nonExistConceptMapGet.get();
         }
     }
 }
