@@ -1,6 +1,6 @@
 {
   "system_msg": "You're an AI assistant that helps people to understand the content in an article through a diagram.",
-  "task" : {
+  "tasks" : {
     "get_keyword_from_pdf": {
       "prompt_msg": "Now, use the provided text to extract maximum of 7 keywords along with the relationship between them.\n---\nTEXT\n",
       "few_shot": [
