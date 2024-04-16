@@ -23,7 +23,7 @@ export default class ExistentConceptMapGet{
 
     private async getConceptMapUUIDFromDb(): Promise<string> {
         const diagram = await this.diagramDb.getDiagramByArticleId(this.articleId);
-        return diagram!.StorageDiagramUUID;
+        return diagram!.StorageDiagramUUID + ".mmd";
     }
 
     private async getConceptMapFromStorage(diagramUUID: string): Promise<ReadableStream> {
@@ -56,7 +56,7 @@ export default class ExistentConceptMapGet{
         const currentFolder = path.dirname(currentFilePath);
         const tempStoragePath = path.resolve(currentFolder, '../../temp_files');
         
-        return path.join(tempStoragePath, this.articleId + ".mdd");
+        return path.join(tempStoragePath, this.articleId + ".mmd");
     }
 
     private removeTempDiagramFileWhenReqEnd() {
