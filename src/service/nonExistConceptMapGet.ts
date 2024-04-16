@@ -46,8 +46,7 @@ export default class NonExistConceptMapGet{
     }
 
     private async getArticleFromStorage(){
-        const articleStorageUUID = (await this.getArticleFromDb())!.StorageArticleUUID;
-
+        const articleStorageUUID = (await this.getArticleFromDb())!.StorageArticleUUID + '.pdf';
         return await this.articleStorage.getArticle(articleStorageUUID);
     }
 
@@ -95,7 +94,7 @@ export default class NonExistConceptMapGet{
     }
 
     private loadTempConceptMapFilePath(diagramUUID: string) {
-        this.tempDiagramFilePath = this.tempStoragePath + diagramUUID + ".mdd";
+        this.tempDiagramFilePath = this.tempStoragePath + diagramUUID + ".mmd";
     }
 
     private async writeDiagramToDb(diagramUUID: string): Promise<void> {
@@ -107,7 +106,7 @@ export default class NonExistConceptMapGet{
     }
 
     private async saveDiagramToStorage(diagramUUID: string){
-        this.diagramStorage.saveDiagram(diagramUUID, this.tempDiagramFilePath!);
+        this.diagramStorage.saveDiagram(diagramUUID + ".mmd", this.tempDiagramFilePath!);
     }
 
     private removeTempPdfFileWhenReqEnd() {

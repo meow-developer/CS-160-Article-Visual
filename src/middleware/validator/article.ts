@@ -15,6 +15,7 @@ export const articleValidator = new ExpressValidator({
 })
 
 export const articleIdValidator = articleValidator.param('articleId')
+                                                    .toInt()
                                                     .isInt({min: 1})
                                                     .isArticleExist();
 
