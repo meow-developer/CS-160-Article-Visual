@@ -112,11 +112,21 @@ export default class ChatGptService {
         });
     }
 
+    private addAssistantResponseToQueue(response: string){
+        this.messageQueue.push({
+            "role": "assistant",
+            "content": response
+        });
+    }
+
     protected async send(){
-        return (await this.openAi.chat.completions.create({
+        const response = (await this.openAi.chat.completions.create({
             "model": this.chatGptModel,
             "messages" : this.messageQueue
-        })).choices[0].message.content
+        })).choices[0].message.content;
+
+        this.addAssistantResponseToQueue(response!);
+        return response;
     }
 }
 
