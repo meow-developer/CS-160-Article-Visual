@@ -1,8 +1,9 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
+import prismaClient from './db.js';
 
 export default class ArticleDb {
     private static instance: ArticleDb;
-    private db = new PrismaClient();
+    private db = prismaClient;
 
     private constructor() {
 

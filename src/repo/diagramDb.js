@@ -1,14 +1,14 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
+import prismaClient from './db.js';
 
 class DiagramDb {
     /**
      * @type {DiagramDb}
      */
     static instance;
-    db;
+    db = prismaClient;
 
     constructor() {
-        this.db = new PrismaClient()
     }
 
     static getInstance() {
