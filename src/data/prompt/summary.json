@@ -1,0 +1,8 @@
+{
+    "system_msg": "You're an AI assistant that helps people to understand the content in an article.",
+    "tasks" : {
+        "summarize" : {
+            "prompt_msg": "Summarize the following article. \n ARTICLE \n"
+        }
+    }
+}

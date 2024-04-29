@@ -1,75 +1,50 @@
-import path from "path";
 import "crypto"
-import { open, unlink } from 'fs/promises';
-import { fileURLToPath } from "url";
 import { Request } from "express";
 
 import DiagramStorage from "../repo/diagramStorage.js";
 import DiagramDb from "../repo/diagramDb.js";
+import DiskStorage from "../repo/diskStorage.js";
 
 export default class ExistentConceptMapGet{
     private diagramStorage = DiagramStorage.getInstance();
     private diagramDb = DiagramDb.getInstance();
-    private tempStoragePath: string;
 
     private articleId: number;
     private req: Request;
     
     constructor(articleId: number, req: Request){
         this.articleId = articleId;
-        this.tempStoragePath = this.getTempDiagramFilePath();
         this.req = req;
     }
 
     private async getConceptMapUUIDFromDb(): Promise<string> {
         const diagram = await this.diagramDb.getDiagramByArticleId(this.articleId);
-        return diagram!.StorageDiagramUUID + ".mmd";
+        return diagram!.StorageDiagramUUID;
     }
 
     private async getConceptMapFromStorage(diagramUUID: string): Promise<ReadableStream> {
         return (await this.diagramStorage.getDiagram(diagramUUID))!;
     }
 
-    private async saveDiagramToDisk(diagramStream: ReadableStream): Promise<void> {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const reader = diagramStream.getReader();
-                const file = await open(this.tempStoragePath, 'w')!;
-                const writer = file.createWriteStream();
-    
-                let read = await reader.read();
-                while (!read.done) {
-                    writer.write(read.value);
-                    read = await reader.read(); 
-                }
-                writer.end();
-                resolve();
-            } catch (err) {
-                reject(err);
-            }
+    private async saveDiagramToDisk(diagramUUID: string, diagramStream: ReadableStream): Promise<string> {
+        const fileName = diagramUUID + ".mdd";
+        const filePath = await DiskStorage.saveReadableStreamToDisk(fileName, diagramStream);
 
-        });
+        return filePath;
     }
 
-    private getTempDiagramFilePath() {
-        const currentFilePath = fileURLToPath(import.meta.url);
-        const currentFolder = path.dirname(currentFilePath);
-        const tempStoragePath = path.resolve(currentFolder, '../../temp_files');
-        
-        return path.join(tempStoragePath, this.articleId + ".mmd");
-    }
-
-    private removeTempDiagramFileWhenReqEnd() {
+    private removeTempDiagramFileWhenReqEnd(filePath: string) {
         this.req.on('close', async () => {
-            await unlink(this.tempStoragePath);
+            await DiskStorage.deleteFileByFilePath(filePath);
         });
     }
 
     public async get() {
         const diagramUUID = await this.getConceptMapUUIDFromDb();
         const diagramStream = await this.getConceptMapFromStorage(diagramUUID);
-        await this.saveDiagramToDisk(diagramStream);
-        this.removeTempDiagramFileWhenReqEnd();
-        return this.tempStoragePath;
+        const filePath = await this.saveDiagramToDisk(diagramUUID, diagramStream);
+
+        this.removeTempDiagramFileWhenReqEnd(filePath);
+        return filePath;
     }
 }

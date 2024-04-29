@@ -75,7 +75,7 @@ class DiagramStorage {
          */
         const command = new PutObjectCommand({
             Bucket: this.bucketName,
-            Key: diagramUUID,
+            Key: diagramUUID + ".mdd",
             Body: await this.diagramFileToStream(diagramFilePath)
         });
 
