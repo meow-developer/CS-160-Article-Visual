@@ -1,6 +1,6 @@
-import ChatGptService from "./chatGpt.js";
+import ChatGpt, { ChatGptService } from "./chatGpt.js";
 import path from "path";
-import MermaidValidator from "./mermaidValidator.js";
+import MermaidValidator from "../mermaidValidator.js";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -10,7 +10,7 @@ class ConceptMapGenerationServiceError extends Error{
     }
 }
 
-export default class ConceptMapGenerationService extends ChatGptService{
+export default class ConceptMapGenerationService extends ChatGpt implements ChatGptService{
     private TASK_NAMES = ["get_keyword_from_pdf", "generate_mermaid_using_keyword"];
 
     constructor(){

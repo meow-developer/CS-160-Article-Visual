@@ -9,7 +9,7 @@ import ArticleStorage from "../repo/articleStorage.js";
 import DiagramStorage from "../repo/diagramStorage.js";
 import ArticleDb from "../repo/articleDb.js";
 import DiagramDb from "../repo/diagramDb.js";
-import ConceptMapGenerationService from "./conceptMapGeneration.js";
+import ConceptMapGenerationService from "./ChatGpt/conceptMapGeneration.js";
 
 export default class ConceptMapUpdate{
     private diagramDb = DiagramDb.getInstance();
@@ -95,12 +95,12 @@ export default class ConceptMapUpdate{
         try {
             return await readPdfText({filePath: this.tempArticleFilePath});
         } catch (err) {
-            throw new Error(err);
+            throw err;
         }
     }
 
     private async saveConceptMapToDb(conceptMap: string): Promise<void> {
-        await this.diagramDb.insertDiagram(this.articleId, conceptMap);
+        
     }
 
     private async generateConceptMap(pdfText: string): Promise<string> {

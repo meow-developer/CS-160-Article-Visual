@@ -22,7 +22,11 @@ class ChatGptError extends Error{
     }
 }
 
-export default class ChatGptService {
+export abstract class ChatGptService {
+    public abstract generate(pdfText: string): Promise<string>; 
+}
+
+export default class ChatGpt {
     private openAi: OpenAI;
     private chatGptModel: ChatCompletionCreateParamsBase["model"];
 
