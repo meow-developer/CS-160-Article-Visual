@@ -7,7 +7,7 @@ import * as textController from './controller/textController.js';
 import userIdExtractor from './middleware/userExtractor.js';
 
 const router = Router();
-const VISUAL_API_ENDPOINT = 'diagram';
+const VISUAL_API_ENDPOINT = 'visual';
 
 router.use(userIdExtractor);
 
