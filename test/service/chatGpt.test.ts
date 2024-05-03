@@ -1,5 +1,5 @@
 //@ts-nocheck
-import ChatGptService from '../../src/service/chatGpt.js';
+import ChatGptService from '../../src/service/ChatGpt/chatGpt.js';
 
 describe('ChatGptService', () => {
     let chatGptService: ChatGptService;
