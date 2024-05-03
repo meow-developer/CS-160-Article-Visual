@@ -27,7 +27,7 @@ export default class ExistentConceptMapGet{
     }
 
     private async saveDiagramToDisk(diagramUUID: string, diagramStream: ReadableStream): Promise<string> {
-        const fileName = diagramUUID + ".mdd";
+        const fileName = diagramUUID + ".mmd";
         const filePath = await DiskStorage.saveReadableStreamToDisk(fileName, diagramStream);
 
         return filePath;

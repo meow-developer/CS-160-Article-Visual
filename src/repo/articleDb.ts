@@ -45,7 +45,8 @@ export default class ArticleDb {
     public async getArticleById(articleId: Prisma.ArticlesWhereUniqueInput["ArticleID"]) {
         return await this.db.articles.findUnique({
             "where": {
-                "ArticleID": articleId
+                "ArticleID": articleId,
+                "Active": true
             }
         })
     }
@@ -60,7 +61,8 @@ export default class ArticleDb {
     public async countArticleByArticleId(articleId: Prisma.ArticlesWhereUniqueInput["ArticleID"]) {
         return await this.db.articles.count({
             "where": {
-                "ArticleID": articleId
+                "ArticleID": articleId,
+                "Active": true
             }
         })
     }

@@ -48,7 +48,7 @@ class DiagramStorage {
     async getDiagram(storageDiagramUUID) {
         const command = new GetObjectCommand({
             Bucket: this.bucketName,
-            Key: storageDiagramUUID,
+            Key: storageDiagramUUID + ".mmd",
         });
 
         const response = await this.s3Client.send(command);
@@ -75,7 +75,7 @@ class DiagramStorage {
          */
         const command = new PutObjectCommand({
             Bucket: this.bucketName,
-            Key: diagramUUID + ".mdd",
+            Key: diagramUUID + ".mmd",
             Body: await this.diagramFileToStream(diagramFilePath)
         });
 
