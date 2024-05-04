@@ -1,4 +1,4 @@
-import ConceptMapGenerationService from "../../src/service/conceptMapGeneration.js";
+import ConceptMapGenerationService from "../../../src/service/ChatGpt/conceptMapGeneration.js";
 
 describe("ConceptMapGenerationService", () => {
     let conceptMapGenerationService: ConceptMapGenerationService;
