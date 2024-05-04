@@ -1,24 +1,16 @@
 import { NextFunction, Response, Request } from "express";
 import ConceptMapGetService from "../service/conceptMapGet.js";
-import CheckUserAccess from "../service/checkUserAccess.js";
+import ConceptMapUpdateService from "../service/conceptMapUpdate.js";
 import RestResponseMaker from './tools/responseMaker.js';
 
 export const getConceptMap = async (req: Request, res: Response, next: NextFunction) => {
-    const articleId = req.params.articleId;
+    const articleId = parseInt(req.params.articleId);
     const userId = req.userId;
     try {
-        const checkAccessService = new CheckUserAccess(parseInt(articleId), userId);
-        const checkAccess = await checkAccessService.checkAccess();
+        const conceptMapGetService = new ConceptMapGetService(articleId, req);
+        const conceptMapFilePath = await conceptMapGetService.get();
 
-        if (checkAccess) {
-            const conceptMapGetService = new ConceptMapGetService(parseInt(articleId), req);
-            const conceptMapFilePath = await conceptMapGetService.get();
-
-            res.status(200).sendFile(conceptMapFilePath);
-        } else {
-            const response = RestResponseMaker.makeErrorResponse(["Article not found"]);
-            res.status(404).send(response);
-        }
+        res.status(200).sendFile(conceptMapFilePath);
 
     } catch (error) {
         next(error);
@@ -26,8 +18,14 @@ export const getConceptMap = async (req: Request, res: Response, next: NextFunct
 }
 
 export const updateConceptMap = async (req: Request, res: Response, next: NextFunction) => {
+    const articleId = parseInt(req.params.articleId);
+    const userId = req.userId;
+
     try {
-        res.status(200).send("");
+        const conceptMapUpdateService = new ConceptMapUpdateService(articleId, req);
+        const conceptMapFilePath = await conceptMapUpdateService.update();
+
+        res.status(200).sendFile(conceptMapFilePath);
     } catch (error) {
         next(error);
     }

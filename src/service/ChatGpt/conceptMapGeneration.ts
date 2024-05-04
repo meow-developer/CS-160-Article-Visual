@@ -16,7 +16,7 @@ export default class ConceptMapGenerationService extends ChatGpt implements Chat
     constructor(){
         const CHATGPT_MODEL = "gpt-3.5-turbo";
         const JSON_PROMPT_FILE_PATH = path.join(dirname(fileURLToPath(import.meta.url)),
-                                                '../data/prompt/conceptMap.json');
+                                                '../../data/prompt/conceptMap.json');
 
         super(CHATGPT_MODEL, JSON_PROMPT_FILE_PATH);
     }

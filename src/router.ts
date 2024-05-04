@@ -5,14 +5,17 @@ import { handleExpressValidation } from './middleware/validator/expressValidator
 import * as diagramController from './controller/diagramController.js';
 import * as textController from './controller/textController.js';
 import userIdExtractor from './middleware/userExtractor.js';
+import CheckUserArticleAccess from './middleware/userArticleAccess.js';
 
 const router = Router();
 const VISUAL_API_ENDPOINT = 'visual';
 
-router.use(userIdExtractor);
+router.use(articleIdValidator, 
+            userIdExtractor, 
+            handleExpressValidation, 
+            (new CheckUserArticleAccess()).checkAccessMiddleware)
 
-router.use(articleIdValidator)
-router.use(handleExpressValidation)
+
 
 router.get(`/:accountId/${VISUAL_API_ENDPOINT}/:articleId/concept-map`,
             diagramController.getConceptMap);
