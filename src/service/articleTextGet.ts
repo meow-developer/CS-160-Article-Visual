@@ -16,12 +16,13 @@ export default class ArticleTextGet {
         this.articleId = articleId;
     }
 
-    private async getArticleFromDb(){
-        return await this.articleDb.getArticleById(this.articleId);
+    private async getArticleStorageUUIDFromDb(){
+        const uuid = (await this.articleDb.getArticleById(this.articleId))?.StorageArticleUUID;
+        return uuid;
     }
 
     private async getArticleFromStorage(){
-        const articleStorageUUID = (await this.getArticleFromDb())!.StorageArticleUUID;
+        const articleStorageUUID = await this.getArticleStorageUUIDFromDb();
         return await this.articleStorage.getArticle(articleStorageUUID + ".pdf");
     }
 

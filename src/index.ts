@@ -10,6 +10,8 @@ const PORT = 8080;
 app.use(morgan('combined'))
 
 const ACCOUNT_API_ENDPOINT = 'account';
+
+
 const CORS_OPTIONS = {
   origin: "*",
   methods: "GET,POST,PUT,DELETE"

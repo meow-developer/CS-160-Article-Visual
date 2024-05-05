@@ -8,20 +8,30 @@ import userIdExtractor from './middleware/userExtractor.js';
 import CheckUserArticleAccess from './middleware/userArticleAccess.js';
 
 const router = Router();
+
+
 const VISUAL_API_ENDPOINT = 'visual';
 
-router.use(articleIdValidator, 
-            userIdExtractor, 
-            handleExpressValidation, 
-            (new CheckUserArticleAccess()).checkAccessMiddleware)
 
 router.get(`/:accountId/${VISUAL_API_ENDPOINT}/:articleId/concept-map`,
+            articleIdValidator, 
+            userIdExtractor, 
+            handleExpressValidation, 
+            (new CheckUserArticleAccess()).checkAccessMiddleware,
             diagramController.getConceptMap);
 
 router.put(`/:accountId/${VISUAL_API_ENDPOINT}/:articleId/concept-map`, 
+            articleIdValidator, 
+            userIdExtractor, 
+            handleExpressValidation, 
+            (new CheckUserArticleAccess()).checkAccessMiddleware,
             diagramController.updateConceptMap);
 
 router.get(`/:accountId/${VISUAL_API_ENDPOINT}/:articleId/summary`,
+            articleIdValidator, 
+            userIdExtractor, 
+            handleExpressValidation, 
+            (new CheckUserArticleAccess()).checkAccessMiddleware,
             textController.getSummary);
 
 
