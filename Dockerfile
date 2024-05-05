@@ -13,6 +13,8 @@ COPY . .
 RUN npx prisma db pull
 RUN npx prisma generate
 
+RUN npm build
+
 EXPOSE 8080
 
 CMD ["npm", "start"]

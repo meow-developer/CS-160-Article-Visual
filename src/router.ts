@@ -35,4 +35,11 @@ router.get(`/:accountId/${VISUAL_API_ENDPOINT}/:articleId/summary`,
             textController.getSummary);
 
 
+router.put(`/:accountId/${VISUAL_API_ENDPOINT}/:articleId/summary`,
+            articleIdValidator, 
+            userIdExtractor, 
+            handleExpressValidation, 
+            (new CheckUserArticleAccess()).checkAccessMiddleware,
+            textController.updateSummary);
+
 export default router;
