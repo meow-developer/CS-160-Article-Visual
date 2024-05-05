@@ -15,8 +15,6 @@ router.use(articleIdValidator,
             handleExpressValidation, 
             (new CheckUserArticleAccess()).checkAccessMiddleware)
 
-
-
 router.get(`/:accountId/${VISUAL_API_ENDPOINT}/:articleId/concept-map`,
             diagramController.getConceptMap);
 

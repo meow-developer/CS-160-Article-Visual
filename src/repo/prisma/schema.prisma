@@ -25,22 +25,20 @@ model Diagram {
 }
 
 model UserArticle {
-  UserID    Int
-  ArticleID Int
-  Users     Users    @relation(fields: [UserID], references: [UserID], onDelete: Cascade, onUpdate: NoAction, map: "UserArticle_ibfk_1")
-  Articles  Articles @relation(fields: [ArticleID], references: [ArticleID], onDelete: Cascade, onUpdate: NoAction, map: "UserArticle_ibfk_2")
+  ArticleId Int
+  UserUUID  String   @db.Char(36)
+  Articles  Articles @relation(fields: [ArticleId], references: [ArticleID], onDelete: Cascade, map: "UserArticle_ibfk_1")
+  Users     Users    @relation(fields: [UserUUID], references: [UserUUID], onUpdate: Restrict, map: "UserArticle_ibfk_2")
 
-  @@id([UserID, ArticleID])
-  @@index([ArticleID], map: "ArticleID")
+  @@id([ArticleId, UserUUID])
+  @@index([UserUUID], map: "UserUUID")
 }
 
 model Users {
-  UserID         Int           @id @default(autoincrement())
-  FirstName      String        @db.VarChar(50)
-  LastName       String        @db.VarChar(50)
-  Email          String        @unique(map: "Email") @db.VarChar(50)
-  HashedPassword String        @db.Char(60)
-  Salt           String        @db.Char(60)
-  Active         Boolean       @default(true)
-  UserArticle    UserArticle[]
+  UserUUID               String        @id @db.Char(36)
+  DisplayName            String        @db.VarChar(50)
+  Email                  String        @unique(map: "Email") @db.VarChar(50)
+  HashedPasswordWithSalt String        @db.Char(60)
+  Active                 Boolean       @default(true)
+  UserArticle            UserArticle[]
 }

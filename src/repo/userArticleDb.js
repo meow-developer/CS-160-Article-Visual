@@ -26,8 +26,8 @@ class UserArticleDb {
     async countUserArticlesId(articleId, userId) {
         return await this.db.userArticle.count({
             where: {
-                ArticleId: articleId,
-                UserUUID: userId
+                "ArticleID": articleId,
+                "UserID": userId
             }
         })
     }

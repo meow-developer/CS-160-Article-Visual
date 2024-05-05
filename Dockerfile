@@ -9,10 +9,9 @@ RUN npm install
 
 COPY . .
 
-ENV SCHEMA_PATH=./src/repo/prisma/schema.prisma
 
-RUN npx prisma db pull --schema=$SCHEMA_PATH
-RUN npx prisma generate --schema=$SCHEMA_PATH
+RUN npx prisma db pull
+RUN npx prisma generate
 
 EXPOSE 8080
 

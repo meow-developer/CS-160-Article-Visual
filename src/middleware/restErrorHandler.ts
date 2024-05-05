@@ -12,7 +12,7 @@ export const errorHandlingMiddleware = (err: any, req: Request, res: Response, n
         return next(err)
     }
     if (err instanceof RestError){
-        res.status(err.statusCode).send(err.message);
+        res.status(err.statusCode).send(err.publicMessage);
         return;
     } else {
         res.status(500).send('Internal Server Error');
