@@ -13,7 +13,7 @@ COPY . .
 RUN npx prisma db pull
 RUN npx prisma generate
 
-RUN npm build
+RUN npm run build
 
 EXPOSE 8080
 
