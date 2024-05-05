@@ -10,6 +10,7 @@ import DiskStorage from "../repo/diskStorage.js";
 export default class NonExistConceptMapGet{
     private diagramDb = DiagramDb.getInstance();
     private diagramStorage = DiagramStorage.getInstance();
+    private diskStorage = DiskStorage.getInstance();
 
     private articleId: number;
     private req: Request;
@@ -35,7 +36,7 @@ export default class NonExistConceptMapGet{
 
     private async saveConceptMapToDisk(diagramUUID: string, conceptMap: string): Promise<string> {
         const fileName = diagramUUID + ".mmd";
-        return await DiskStorage.saveStringToDisk(fileName, conceptMap);
+        return await this.diskStorage.saveStringToDisk(fileName, conceptMap);
     }
 
     private async writeDiagramToDb(diagramUUID: string): Promise<void> {
@@ -52,7 +53,7 @@ export default class NonExistConceptMapGet{
 
     private deleteTempFileWhenReqEnds(filePath: string){
         this.req.on("close", async () => {
-            await DiskStorage.deleteFileByFilePath(filePath);
+            await this.diskStorage.deleteFileByFilePath(filePath);
         });
     }
 

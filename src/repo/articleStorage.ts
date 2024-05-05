@@ -59,7 +59,7 @@ export default class ArticleStorage {
         await this.s3Client.send(command);
     }
 
-    public async getArticle(articleUUID: string): Promise<ReadableStream> {
+    public async getArticle(articleUUID: string): Promise<Uint8Array> {
         /**
          * @see {@link https://docs.aws.amazon.com/AmazonS3/latest/userguide/example_s3_GetObject_section.html}
          */
@@ -69,9 +69,8 @@ export default class ArticleStorage {
         });
 
         const response = await this.s3Client.send(command);
-        const responseStream = await response.Body?.transformToWebStream();
-        return responseStream!;
-
+        const responseByteArray = await response.Body?.transformToByteArray();
+        return responseByteArray!;
     }
 
     private loadEnvBucketConfig() {

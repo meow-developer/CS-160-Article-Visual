@@ -16,3 +16,5 @@ export const getSummary = async (req: Request, res: Response, next: NextFunction
         next(error);
     }
 }
+
+export const updateSummary = getSummary;

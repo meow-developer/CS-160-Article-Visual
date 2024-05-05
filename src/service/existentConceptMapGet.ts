@@ -8,6 +8,7 @@ import DiskStorage from "../repo/diskStorage.js";
 export default class ExistentConceptMapGet{
     private diagramStorage = DiagramStorage.getInstance();
     private diagramDb = DiagramDb.getInstance();
+    private diskStorage = DiskStorage.getInstance();
 
     private articleId: number;
     private req: Request;
@@ -28,14 +29,14 @@ export default class ExistentConceptMapGet{
 
     private async saveDiagramToDisk(diagramUUID: string, diagramStream: ReadableStream): Promise<string> {
         const fileName = diagramUUID + ".mmd";
-        const filePath = await DiskStorage.saveReadableStreamToDisk(fileName, diagramStream);
+        const filePath = await this.diskStorage.saveReadableStreamToDisk(fileName, diagramStream);
 
         return filePath;
     }
 
     private removeTempDiagramFileWhenReqEnd(filePath: string) {
         this.req.on('close', async () => {
-            await DiskStorage.deleteFileByFilePath(filePath);
+            await this.diskStorage.deleteFileByFilePath(filePath);
         });
     }
 

@@ -10,6 +10,7 @@ import DiskStorage from "../repo/diskStorage.js";
 export default class ConceptMapUpdate{
     private articleId: number;
     private req: Request;
+    private diskStorage = DiskStorage.getInstance();
 
     constructor(articleId: number, req: Request){
         this.articleId = articleId;
@@ -34,7 +35,7 @@ export default class ConceptMapUpdate{
 
     private async saveConceptMapToDisk(diagramUUID: string, conceptMap: string): Promise<string> {
         const fileName = diagramUUID + ".mmd";
-        return await DiskStorage.saveStringToDisk(fileName, conceptMap);
+        return await this.diskStorage.saveStringToDisk(fileName, conceptMap);
     }
     private async saveDiagramToStorage(diagramUUID: string, filePath: string){
         const diagramStorage = DiagramStorage.getInstance();
@@ -42,7 +43,7 @@ export default class ConceptMapUpdate{
     }
     private deleteTempFileWhenReqEnds(filePath: string){
         this.req.on("close", async () => {
-            await DiskStorage.deleteFileByFilePath(filePath);
+            await this.diskStorage.deleteFileByFilePath(filePath);
         });
     }
     public async update(){
