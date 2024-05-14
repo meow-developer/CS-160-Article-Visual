@@ -14,7 +14,7 @@ export default class ConceptMapGenerationService extends ChatGpt implements Chat
     private TASK_NAMES = ["get_keyword_from_pdf", "generate_mermaid_using_keyword"];
 
     constructor(){
-        const CHATGPT_MODEL = "gpt-3.5-turbo";
+        const CHATGPT_MODEL = "gpt-4o";
         const JSON_PROMPT_FILE_PATH = path.join(dirname(fileURLToPath(import.meta.url)),
                                                 '../../data/prompt/conceptMap.json');
 

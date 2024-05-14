@@ -7,7 +7,7 @@ import { dirname } from 'path';
 export default class SummaryGenerationService extends ChatGpt implements ChatGptService {
     private TASK_NAMES = ["summarize"];
     constructor() {
-        const CHATGPT_MODEL = "gpt-3.5-turbo";
+        const CHATGPT_MODEL = "gpt-4o";
         const JSON_PROMPT_FILE_PATH = path.join(dirname(fileURLToPath(import.meta.url)),
                                                         '../../data/prompt/summary.json');
         super(CHATGPT_MODEL, JSON_PROMPT_FILE_PATH);
